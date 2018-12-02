@@ -15,7 +15,9 @@ class BotMan {
     }
 
     callAPI = (text: string, interactive = false, attachment: IAttachment = null, perMessageCallback: Function, callback: Function) => {
-    	let data = new FormData();
+   
+        
+        let data = new FormData();
     	const postData: { [index: string] : string|Blob } = {
     		driver: 'web',
     		userId: this.userId,
@@ -39,6 +41,7 @@ class BotMan {
     			callback(response.data);
     		}
     	});
+
     };
 
 }

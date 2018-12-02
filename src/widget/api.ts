@@ -67,6 +67,15 @@ export default class Api {
         });
     }
 
+    pseudosay(text: string) {
+        this.callChatWidget({
+            method: 'pseudosay',
+            params: [
+                text
+            ]
+        });
+    }
+
     whisper(text: string) {
         this.callChatWidget({
             method: 'whisper',

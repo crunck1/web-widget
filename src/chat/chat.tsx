@@ -16,8 +16,32 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.botman = botman;
         this.botman.setUserId(this.props.userId);
         this.botman.setChatServer(this.props.conf.chatServer);
-        this.state.messages = [];
-        this.state.replyType = ReplyType.Text;
+
+        this.setState({messages:[], replyType:ReplyType.Text});
+        this.load_messages();
+    }
+
+    load_messages() {
+       let that = this;
+       let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
+       if(storedJson != null) {
+            let storedMessages : IMessage[] = JSON.parse(window.localStorage.getItem("BOTMAN_MESSAGES"));
+            if(storedMessages != null) {
+                    storedMessages.forEach(function(msg : IMessage) {
+                        that.state.messages.push(msg);
+                        that.setState({
+                            messages: that.state.messages
+                        });
+                        if (msg.additionalParameters && msg.additionalParameters.replyType) {
+                            that.setState({
+                                replyType: msg.additionalParameters.replyType
+                            });
+                        }
+                });
+            }
+       } else {
+           console.log("new visitor. no stored messages");
+       }
     }
 
     componentDidMount() {
@@ -205,6 +229,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
                 replyType: msg.additionalParameters.replyType
             });
         }
+
+        var json = JSON.stringify(this.state.messages);
+        window.localStorage.setItem("BOTMAN_MESSAGES", json);
 	};
 }
 
