@@ -105,6 +105,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
                 {this.state.replyType === ReplyType.Text ? (
                     <input
+                        autocomplete="off"
                         id="userText"
                         class="textarea"
                         type="text"
@@ -133,6 +134,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
                         <textarea
                             id="userText"
+                            autocomplete="off"
                             class="textarea"
                             placeholder={this.props.conf.placeholderText}
                             ref={input => {
