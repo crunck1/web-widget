@@ -21,7 +21,7 @@ export const defaultConfiguration: IConfiguration = {
     mobileHeight: '100%',
     mobileWidth: '300px',
     videoHeight: 160,
-    aboutLink: 'https://botsolver.com',
+    aboutLink: 'https://www.botsolver.com',
     aboutText: '⚡ Powered by Botsolver',
     chatId: '',
     userId: '',
