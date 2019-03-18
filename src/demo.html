@@ -17,6 +17,8 @@
             margin: 0;
             padding: 0;
             background: radial-gradient(#57bfc7, #45a6b3);
+               height:auto;
+    overflow: auto;
         }
 
         .container {
@@ -34,6 +36,8 @@
             margin-right: 40px;
             margin-bottom: 20px;
         }
+        html{overflow: auto;}
+
     </style>
 </head>
 <body>
@@ -55,12 +59,19 @@
 </div>
 
 
+<!-- botsolver.com widget -->
 <script>
-    var botmanWidget = {
-        chatServer: 'https://php-uk-conference-2018.marcelpociot.de/botman',
-        frameEndpoint: 'chat.html'
-    };
+var locale = navigator.language || navigator.browserLanguage || ( navigator.languages || [ "it" ] ) [0];    
+var botWidget = {
+    frameEndpoint: 'http://192.168.43.44/webwidgetiframe?',
+    chatServer:  'http://192.168.43.44/botservice/web/71?locale='+locale.substring(0, 2),
+    title: 'web chat',
+    introMessage: 'ciao, sono un assistente virtuale, come posso aiutarti?',
+    bubbleAvatarUrl:'https://www.botsolver.com/images/logo_ticketbotsupport.png',
+    placeholderText: 'Scrivimi qualcosa',
+};
 </script>
-<script id="botmanWidget" src='js/widget.js'></script>
+<script src='http://192.168.43.44/webwidget/js/widget.js'></script>
+<!-- /botsolver.com widget --> 
 </body>
 </html>
