@@ -94,6 +94,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
     }
 
     render({}, state: IChatState) {
+        const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div>
                 <div id="messageArea">
@@ -110,6 +111,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
                         id="userText"
                         class="textarea"
                         type="text"
+                        style={styleTextarea}
                         placeholder={this.props.conf.placeholderText}
                         ref={input => {
                             this.input = input as HTMLInputElement;
@@ -221,8 +223,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
 	    if (msg.attachment === null) {
 	        msg.attachment = {}; // TODO: This renders IAttachment useless
 	    }
-
-	    this.state.messages.push(msg);
+  
+	    this.state.messages.push(msg); 
 	    this.setState({
 	        messages: this.state.messages
 	    });

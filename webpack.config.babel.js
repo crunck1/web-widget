@@ -168,7 +168,7 @@ module.exports = {
 
 	devServer: {
 		port: process.env.PORT || 8080,
-		host: '192.168.43.44',
+		host: '192.168.0.7',
 		publicPath: '/js/',
 		contentBase: './src',
 		historyApiFallback: true,

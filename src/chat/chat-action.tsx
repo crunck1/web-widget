@@ -21,9 +21,11 @@ export default class ChatAction extends Component<IChatActionProps, any> {
                 actions: msg.actions,
                 attachment: msg.attachment,
                 additionalParameters: msg.additionalParameters,
+                buttons: msg.buttons,
                 from: 'chatbot'
             });
         }, null);
+        console.log('daiiiii');
     }
 }
 
