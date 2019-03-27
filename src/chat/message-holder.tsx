@@ -50,7 +50,14 @@ export default class MessageHolder extends Component<IMessageHolderProps, any> {
         const MessageComponent = messageTypes[message.type] || TextType;
         const { messageHandler, conf } = this.props;
 
-        let styles = '';
+        let msgstyle = '';
+        if(message.from==='visitor'){
+           msgstyle = (conf.visitorMessageBackgroundColor?'background-color:'+conf.visitorMessageBackgroundColor+';':'');
+        }
+        else  {
+          msgstyle = (conf.chatbotMessageBackgroundColor?'background-color:'+conf.chatbotMessageBackgroundColor+';':'');;
+        }
+        let styles ='';
         if (message.visible === false || message.visibilityChanged === false) {
             styles += 'display:none';
         }
@@ -58,7 +65,7 @@ export default class MessageHolder extends Component<IMessageHolderProps, any> {
 
         return (
             <li data-message-id={message.id} class={message.from} style={styles}>
-                <div class="msg">
+                <div class="msg" style={msgstyle}>
                     <MessageComponent onVisibilityChange={this.messageVisibilityChange}
                                       message={message}
                                       timeout={calculatedTimeout}

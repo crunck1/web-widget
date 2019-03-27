@@ -7,8 +7,8 @@ export default class ButtonsType extends MessageType {
 
     render(props: IMessageTypeProps) {
         const message = props.message;
-
-        const buttons = message.buttons.map((button) => {
+        
+        const buttons = message.buttons ? message.buttons.map((button) => {
             if (button.type === 'postback') {
                 return <div class="btn" onClick={() => this.performAction(button)}>
                     {button.title}
@@ -17,7 +17,7 @@ export default class ButtonsType extends MessageType {
             if (button.type === 'web_url') {
                 return <a class="btn" href={button.url} target="_blank">{button.title}</a>;
             }
-        });
+        }):null;
         return (
             <div>
                 {message.text}
@@ -27,7 +27,9 @@ export default class ButtonsType extends MessageType {
     }
 
     performAction(button: IButton) {
+        
         botman.callAPI(button.payload, true, null, (msg: IMessage) => {
+            
             this.setState({ attachmentsVisible : false });
             this.props.messageHandler({
                 text: msg.text,
@@ -35,7 +37,8 @@ export default class ButtonsType extends MessageType {
                 actions: msg.actions,
                 attachment: msg.attachment,
                 additionalParameters: msg.additionalParameters,
-                from: 'chatbot'
+                from: 'chatbot',
+                buttons: msg.buttons,
             });
         }, null);
     }
