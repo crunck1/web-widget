@@ -25,7 +25,6 @@ export default class ChatAction extends Component<IChatActionProps, any> {
                 from: 'chatbot'
             });
         }, null);
-        console.log('daiiiii');
     }
 }
 
