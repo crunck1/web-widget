@@ -63,6 +63,7 @@ export default class Widget extends Component<any, IWidgetState> {
         const wrapperWidth = {width: isMobile ? conf.mobileWidth : conf.desktopWidth};
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
         conf.wrapperHeight = desktopHeight;
+        const changeLanguage = conf.changeLanguage;
 
         let wrapperStyle;
 
@@ -80,6 +81,7 @@ export default class Widget extends Component<any, IWidgetState> {
             wrapperStyle = mobileOpenWrapperStyle; // open mobile wrapper should have no border
         }
 
+        
 
         return (
 
@@ -94,14 +96,23 @@ export default class Widget extends Component<any, IWidgetState> {
 
                     (isChatOpen || this.state.wasChatOpened) ?
                         (isChatOpen ?
-                            <div style={{background: conf.mainColor, ...desktopTitleStyle}} onClick={this.toggle}>
+                            <div style={{background: conf.mainColor, ...desktopTitleStyle}} >
                                 <div style={{
                                     display: 'flex', alignItems: 'center', padding: '0px 30px 0px 0px',
                                     fontSize: '15px', fontWeight: 'normal', color: conf.headerTextColor
                                 }}>
                                     {conf.title}
+                                    {(changeLanguage === true) ? 
+                                    [
+                                     <div style={{paddingLeft:10}} onClick={() =>this.setLocale('it')}>ITA</div>,
+                                     <div style={{color:conf.headerTextColor,paddingLeft:2,paddingRight:2}}>|</div>,
+                                     <div style={{color:conf.headerTextColor}} onClick={() => this.setLocale('en')}>ENG</div>
+                                    ]
+                                    :''}
                                 </div>
-                                <ArrowIcon isOpened={isChatOpen}/>
+                                <div onClick={this.toggle}>
+                                    <ArrowIcon isOpened={isChatOpen}/>
+                                </div>
                             </div> : <ChatTitleMsg onClick={this.toggle} conf={conf}/>)
                         :
                         <ChatTitleMsg onClick={this.toggle} conf={conf}/>
@@ -121,7 +132,7 @@ export default class Widget extends Component<any, IWidgetState> {
 
     toggle = () => {
     	let stateData = {
-    		pristine: false,
+            pristine: false,
             isChatOpen: !this.state.isChatOpen,
             wasChatOpened: this.state.wasChatOpened
     	};
@@ -149,6 +160,10 @@ export default class Widget extends Component<any, IWidgetState> {
             pristine: false,
             isChatOpen: false
         });
+    }
+    
+    setLocale(text: string) {
+        window.botmanChatWidget.setLocale(text);
     }
 
     private sendOpenEvent() {

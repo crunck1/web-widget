@@ -8,6 +8,11 @@ class BotMan {
         userLastName: string;
         userEmail: string;
 	chatServer: string;
+        localeNew: string;
+
+    setLocale(localeNew: string) {
+        this.localeNew = localeNew;
+    }
 
     setUserId(userId: string) {
         this.userId = userId;
@@ -27,6 +32,7 @@ class BotMan {
    
         
         let data = new FormData();
+        let newlocale = typeof this.localeNew === 'undefined' ? '' : this.localeNew;
     	const postData: { [index: string] : string|Blob } = {
     		driver: 'web',
     		userId: this.userId,
@@ -35,7 +41,8 @@ class BotMan {
                 userEmail: this.userEmail,
     		message: text,
     		attachment: attachment as Blob,
-    		interactive: interactive ? '1' : '0'
+    		interactive: interactive ? '1' : '0',
+                localeNew: newlocale
     	};
 
     	Object.keys(postData).forEach(key => data.append(key, postData[key]));

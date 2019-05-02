@@ -40,6 +40,7 @@ function generateRandomId() {
 function injectChat() {
     let root = document.createElement('div');
     root.id = 'botWidgetRoot';
+    //root.setAttribute("style", "color:red; height:100%;");
     document.getElementsByTagName('body')[0].appendChild(root);
 
     let settings = {};

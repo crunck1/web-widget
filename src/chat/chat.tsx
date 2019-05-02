@@ -22,6 +22,16 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.load_messages();
     }
 
+    setLocale(text: string) {
+
+        this.botman.setLocale(text);
+        if(text==='it')
+          this.whisper('CHANGE_TO_ITA_LOCALE');
+        else if(text==='en')
+          this.whisper('CHANGE_TO_ENG_LOCALE');
+
+    }
+
     load_messages() {
        let that = this;
        let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
@@ -96,7 +106,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
     render({}, state: IChatState) {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
-            <div>
+            <div style="height:100%">
                 <div id="messageArea">
                     <MessageArea
                         messages={state.messages}

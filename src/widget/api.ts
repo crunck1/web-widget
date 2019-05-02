@@ -25,6 +25,16 @@ export default class Api {
         return this.widget.state.isChatOpen === true;
     }
 
+
+    setLocale(text: string){
+        this.callChatWidget({
+            method: 'setLocale',
+            params: [
+                text
+            ]
+        })
+    }
+
     callChatWidget(payload: Object) {
         if (this.isOpen()) {
             (document.getElementById('chatBotManFrame') as HTMLIFrameElement).contentWindow.postMessage(payload, '*');

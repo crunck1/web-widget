@@ -22,6 +22,7 @@ if (confString) {
 function injectChat() {
     let root = document.createElement('div');
     root.id = 'botmanChatRoot';
+    root.setAttribute("style", "color:red; height:100%;");
     document.getElementsByTagName('body')[0].appendChild(root);
 
     render(

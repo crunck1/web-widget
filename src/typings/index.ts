@@ -139,5 +139,7 @@ export interface IConfiguration {
 
     echoEventName: string,
 
-    init?: Function
+    init?: Function,
+
+    changeLanguage: boolean,
 }
