@@ -65,11 +65,13 @@ function injectChat() {
     const conf = {...defaultConfiguration, ...settings, ...dynamicConf};
 
     const iFrameSrc = conf.frameEndpoint;
+    const baloonSrc = conf.bubbleAvatarUrl;
 
     render(
         <Widget
             isMobile={window.screen.width < 500}
             iFrameSrc={iFrameSrc}
+            baloonSrc={baloonSrc}
             conf={conf}
         />,
         root

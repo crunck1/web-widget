@@ -35,6 +35,10 @@ export default class Api {
         })
     }
 
+    setBubbleAvatarUrl(text: string){
+        this.widget.setbubbleAvatarUrl(text);
+    }
+
     callChatWidget(payload: Object) {
         if (this.isOpen()) {
             (document.getElementById('chatBotManFrame') as HTMLIFrameElement).contentWindow.postMessage(payload, '*');

@@ -26,6 +26,7 @@ export default class Widget extends Component<any, IWidgetState> {
         this.state.isChatOpen = false;
         this.state.pristine = true;
         this.state.wasChatOpened = false;
+        this.state.baloonSrc='';
     }
 
     componentDidMount() {
@@ -59,7 +60,7 @@ export default class Widget extends Component<any, IWidgetState> {
     render(props: IWidgetProps, state: IWidgetState) {
 
         const {conf, isMobile} = props;
-        const {isChatOpen, pristine} = state;
+        const {isChatOpen, pristine, baloonSrc} = state;
         const wrapperWidth = {width: isMobile ? conf.mobileWidth : conf.desktopWidth};
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
         conf.wrapperHeight = desktopHeight;
@@ -90,7 +91,7 @@ export default class Widget extends Component<any, IWidgetState> {
                 {/* Open/close button */}
                 {(isMobile || conf.alwaysUseFloatingButton) && !isChatOpen ?
 
-                    <ChatFloatingButton onClick={this.toggle} conf={conf}/>
+                    <ChatFloatingButton onClick={this.toggle} conf={conf} />
 
                     :
 
@@ -113,9 +114,9 @@ export default class Widget extends Component<any, IWidgetState> {
                                 <div onClick={this.toggle}>
                                     <ArrowIcon isOpened={isChatOpen}/>
                                 </div>
-                            </div> : <ChatTitleMsg onClick={this.toggle} conf={conf}/>)
+                            </div> : <ChatTitleMsg onClick={this.toggle} conf={conf}  baloonSrc={baloonSrc}/>)
                         :
-                        <ChatTitleMsg onClick={this.toggle} conf={conf}/>
+                        <ChatTitleMsg onClick={this.toggle} conf={conf} baloonSrc={baloonSrc}/>
                 }
 
                 {/*Chat IFrame*/}
@@ -165,6 +166,11 @@ export default class Widget extends Component<any, IWidgetState> {
     setLocale(text: string) {
         window.botmanChatWidget.setLocale(text);
     }
+    setbubbleAvatarUrl(url: string) {
+        this.setState({
+            baloonSrc: url
+        });
+    }
 
     private sendOpenEvent() {
         let data = new FormData();
@@ -186,6 +192,7 @@ interface IWidgetState {
     isChatOpen: boolean,
     pristine: boolean,
     wasChatOpened: boolean,
+    baloonSrc: string,
 }
 
 
@@ -193,6 +200,7 @@ interface IWidgetProps {
     iFrameSrc: string,
     conf: IConfiguration,
     isMobile: boolean,
+    baloonSrc: string,
 }
 
 declare global {

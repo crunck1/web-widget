@@ -4,6 +4,7 @@ import {desktopClosedMessageStyle, desktopIntroMessageStyle, desktopClosedMessag
 export default class ChatTitleMsg extends Component<any, any> {
 
     render({conf}: IChatTitleMsgProps,{}) {
+
         return (
             <div style={{position: 'relative', cursor: 'pointer'}} onClick={this.props.onClick}>
                 <div
@@ -13,7 +14,12 @@ export default class ChatTitleMsg extends Component<any, any> {
                         ...desktopClosedMessageAvatarStyle
                     }}
                 >
-                    {(conf.bubbleAvatarUrl === '') ?
+
+                    {(this.props.baloonSrc)? <img
+                                src={this.props.baloonSrc}
+                                style={{...closedChatAvatarImageStyle}}
+                            />:
+                    (conf.bubbleAvatarUrl === '') ?
                         <svg style={{
                             width: '60%',
                             height: 'auto'
@@ -37,5 +43,6 @@ interface IChatTitleMsgProps {
     conf: { 
         bubbleAvatarUrl: string,
         bubbleBackground: string
-    }
+    },
+    baloonSrc: string
 }
