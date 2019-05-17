@@ -1,6 +1,7 @@
 import { h, render } from 'preact';
 import Chat from './chat';
 import { IConfiguration } from '../typings';
+import 'preact/devtools';
 
 if (window.attachEvent) {
     window.attachEvent('onload', injectChat);

@@ -17,6 +17,7 @@ html, body {
 /* M E S S A G E S */
 #messageArea {
     overflow-y: scroll;
+    height: calc(100% - 55px);
 }
 
 .chat {
@@ -75,6 +76,9 @@ html, body {
     -moz-border-radius: 10px;
     border-radius: 10px;
     background: #dae1e7;
+    animation: ease slideInUp .5s;
+    animation-delay: 0s;
+    position:relative;
 }
 
 .msg p {
@@ -202,4 +206,37 @@ div.loading-dots .dot-lg {
     cursor: pointer;
     color: white;
     text-align: center;
+}
+
+/* New features */
+
+@-webkit-keyframes slideInUp {
+    from {
+        -webkit-transform: translate3d(0,100%,0);
+        transform: translate3d(0,100%,0);
+        visibility: visible
+    }
+
+    to {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0)
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        -webkit-transform: translate3d(0,100%,0);
+        transform: translate3d(0,100%,0);
+        visibility: visible
+    }
+
+    to {
+        -webkit-transform: translate3d(0,0,0);
+        transform: translate3d(0,0,0)
+    }
+}
+
+.slideInUp {
+    -webkit-animation-name: slideInUp;
+    animation-name: slideInUp
 }

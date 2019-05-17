@@ -162,10 +162,13 @@ export default class Widget extends Component<any, IWidgetState> {
             isChatOpen: false
         });
     }
-    
+    initBot(text: string){
+        window.botmanChatWidget.initBot(text);
+    }
     setLocale(text: string) {
         window.botmanChatWidget.setLocale(text);
     }
+
     setbubbleAvatarUrl(url: string) {
         this.setState({
             baloonSrc: url
@@ -174,9 +177,11 @@ export default class Widget extends Component<any, IWidgetState> {
 
     private sendOpenEvent() {
         let data = new FormData();
+        let intro = this.props.conf.introMessage || '';
         data.append('driver', 'web');
         data.append('eventName', 'widgetOpened');
         data.append('eventData', this.props.conf.widgetOpenedEventData);
+        window.botmanChatWidget.initBot(intro);
 
         axios.post(this.props.conf.chatServer, data).then(response => {
             const messages = response.data.messages || [];

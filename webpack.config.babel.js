@@ -40,7 +40,7 @@ module.exports = {
 		rules: [
 			{
 				test: /\.jsx?$/,
-				exclude: path.resolve(__dirname, 'src'),
+				exclude: [path.resolve(__dirname, 'src'),  /\.old$/],
 				enforce: 'pre',
 				use: 'source-map-loader'
 			},
@@ -74,7 +74,7 @@ module.exports = {
 			},
 			{
 				test: /\.(less|css)$/,
-				exclude: [path.resolve(__dirname, 'src/components')],
+				exclude: [path.resolve(__dirname, 'src/components'),  /\.old$/],
 				use: ExtractTextPlugin.extract({
 					fallback: 'style-loader',
 					use: [
@@ -148,7 +148,7 @@ module.exports = {
 				if_return: true,
 				join_vars: true,
 				cascade: true,
-				drop_console: true
+				drop_console: false
 			}
 		})
 	] : []),
@@ -167,12 +167,18 @@ module.exports = {
 	devtool: ENV==='production' ? 'source-map' : 'cheap-module-eval-source-map',
 
 	devServer: {
-		port: process.env.PORT || 8080,
-		host: '192.168.0.7',
+		port: process.env.PORT || 8081,
+		host: 'localhost',
 		publicPath: '/js/',
 		contentBase: './src',
 		historyApiFallback: true,
 		open: true,
 		openPage: 'demo.html',
+                  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+  }
+
 	}
 };

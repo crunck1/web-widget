@@ -36,6 +36,6 @@ export default class Action extends MessageType {
                 additionalParameters: msg.additionalParameters,
                 from: 'chatbot'
             });
-        }, null);
+        }, null,null);
     }
 }

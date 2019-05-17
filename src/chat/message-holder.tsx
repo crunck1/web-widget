@@ -44,6 +44,7 @@ export default class MessageHolder extends Component<IMessageHolderProps, any> {
     };
 
     render(props: IMessageHolderProps) {
+        
         const currentTime = new Date();
         const message = props.message;
         const msgTime = new Date(message.time);
@@ -56,6 +57,9 @@ export default class MessageHolder extends Component<IMessageHolderProps, any> {
         }
         else  {
           msgstyle = (conf.chatbotMessageBackgroundColor?'background-color:'+conf.chatbotMessageBackgroundColor+';':'');;
+        }
+        if(message.type==='list'){
+            msgstyle += ' max-width: 100%';
         }
         let styles ='';
         if (message.visible === false || message.visibilityChanged === false) {

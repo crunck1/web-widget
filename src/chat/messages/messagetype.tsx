@@ -8,7 +8,9 @@ export default abstract class MessageType extends Component<IMessageTypeProps, I
         this.state = {
             visible: false,
             visibilityChanged: false,
-            attachmentsVisible: true
+            attachmentsVisible: true,
+            position: 0,
+            imgContainerDimensions: {},
         };
     }
 

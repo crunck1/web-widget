@@ -40,6 +40,6 @@ export default class ButtonsType extends MessageType {
                 from: 'chatbot',
                 buttons: msg.buttons,
             });
-        }, null);
+        }, null,null);
     }
 }

@@ -19,7 +19,9 @@ export interface IMessageHolderProps {
 export interface IMessageTypeState {
     visible: boolean,
     visibilityChanged: boolean,
-    attachmentsVisible: boolean
+    attachmentsVisible: boolean,
+    position: number,
+    imgContainerDimensions: any,
 }
 
 export interface IMessage {
@@ -48,6 +50,7 @@ export interface IElement {
     title : string,
     image_url: string,
     item_url: string,
+    item_payload: string,
     subtitle: string,
     default_action: IAction,
     buttons: IButton[],

@@ -28,9 +28,11 @@ class BotMan {
         this.chatServer = chatServer;
     }
 
-    callAPI = (text: string, interactive = false, attachment: IAttachment = null, perMessageCallback: Function, callback: Function) => {
+    callAPI = (text: string, interactive = false, attachment: IAttachment = null, perMessageCallback: Function, callback: Function,  prePostData: Function) => {
    
-        
+        if (prePostData) {
+                prePostData(text);
+        }
         let data = new FormData();
         let newlocale = typeof this.localeNew === 'undefined' ? '' : this.localeNew;
     	const postData: { [index: string] : string|Blob } = {

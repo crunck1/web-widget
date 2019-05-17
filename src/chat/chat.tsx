@@ -56,7 +56,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
     }
 
     componentDidMount() {
-        if (!this.state.messages.length && this.props.conf.introMessage) {
+        if (!this.state.messages.length &&
+             this.props.conf.introMessage &&
+            !this.props.conf.sendWidgetOpenedEvent) {
             this.writeToMessages({
                 text: this.props.conf.introMessage,
                 type: "text",
@@ -73,6 +75,11 @@ export default class Chat extends Component<IChatProps, IChatState> {
         });
     }
 
+
+    initBot(text: string) {
+        if(!this.state.messages.length)
+          this.say(text, false);
+    }
     sayAsBot(text: string) {
         this.writeToMessages({
             text,
@@ -107,7 +114,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea">
+                <div id="messageArea" class="wc-app">
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -216,7 +223,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         return uuid;
     }
 
-	writeToMessages = (msg: IMessage) => {
+    writeToMessages = (msg: IMessage) => {
         if (typeof msg.time === "undefined") {
             msg.time = new Date().toJSON();
         }
@@ -248,7 +255,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         var json = JSON.stringify(this.state.messages);
         window.localStorage.setItem("BOTMAN_MESSAGES", json);
 	};
-}
+    }
 
 interface IChatProps {
     userId: string,

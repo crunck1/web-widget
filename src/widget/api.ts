@@ -38,6 +38,14 @@ export default class Api {
     setBubbleAvatarUrl(text: string){
         this.widget.setbubbleAvatarUrl(text);
     }
+    initBot(text: string){
+        this.callChatWidget({
+            method: 'initBot',
+            params: [
+                text
+            ]
+        })
+    }
 
     callChatWidget(payload: Object) {
         if (this.isOpen()) {
