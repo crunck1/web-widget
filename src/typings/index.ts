@@ -145,4 +145,5 @@ export interface IConfiguration {
     init?: Function,
 
     changeLanguage: boolean,
+    expiresAfter: number,
 }

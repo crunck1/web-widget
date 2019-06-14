@@ -1,26 +1,3 @@
-@charset "UTF-8";@font-face {
-    font-family: 'vodafone_rgregular';
-    font-style: normal;
-    font-weight: normal;
-    src: url(/webwidget/assets/fonts/vodafonerg-webfont.eot);
-    src: url(/webwidget/assets/fonts/vodafonerg-webfont.eot?#iefix) format("embedded-opentype"),url(/webwidget/assets/fonts/vodafonerg-webfont.woff) format("woff"),url(/webwidget/assets/fonts/vodafonerg-webfont.ttf) format("truetype"),url(/webwidget/assets/fonts/vodafonerg-webfont.svg#vodafone_rgregular) format("svg")
-}
-
-@font-face {
-    font-family: 'vodafone_rgbold';
-    font-style: normal;
-    font-weight: bold;
-    src: url(/webwidget/assets/fonts/vodafonerg_bd-webfont.eot);
-    src: url(/webwidget/assets/fonts/vodafonerg_bd-webfont.eot?#iefix) format("embedded-opentype"),url(/webwidget/assets/fonts/vodafonerg_bd-webfont.woff) format("woff"),url(/webwidget/assets/fonts/vodafonerg_bd-webfont.ttf) format("truetype"),url(/webwidget/assets/fonts/vodafonerg_bd-webfont.svg#vodafone_rgbold) format("svg")
-}
-
-@font-face {
-    font-family: 'vodafone_ltregular';
-    font-style: normal;
-    font-weight: 200;
-    src: url(/webwidget/assets/fonts/vodafonelt-webfont.eot);
-    src: url(/webwidget/assets/fonts/vodafonelt-webfont.eot?#iefix) format("embedded-opentype"),url(/webwidget/assets/fonts/vodafonelt-webfont.woff) format("woff"),url(/webwidget/assets/fonts/vodafonelt-webfont.ttf) format("truetype"),url(/webwidget/assets/fonts/vodafonelt-webfont.svg#vodafone_ltregular) format("svg")
-}
 
 .bkg-green {
     background-color: #1cbacf!important;

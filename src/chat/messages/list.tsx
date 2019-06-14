@@ -84,8 +84,6 @@ export default class ListType extends MessageType {
     render(props: IMessageTypeProps) {
         const message = props.message;
         const imgContainerDimensions  = this.state.imgContainerDimensions;
-
-        console.log(message.globalButtons.length );
         const globalButtons = (message.globalButtons != null && message.globalButtons.length >1) ? message.globalButtons.map((button: IButton) => {
             return this.getButton(button);
         }):'';
@@ -155,13 +153,19 @@ export default class ListType extends MessageType {
                     actions: msg.actions,
                     attachment: msg.attachment,
                     additionalParameters: msg.additionalParameters,
-                    from: 'chatbot'
+                    interactive: true,
+                    from: 'chatbot',
+                    buttons: msg.buttons,
                 });
             },null,(msg: IMessage) => {
                 this.props.messageHandler({
                     text: text,
                     type: text,
-                    from: 'visitor'
+                    interactive: true,
+                    from: 'visitor',
+                    actions: msg.actions,
+                    attachment: msg.attachment as Blob,
+                    buttons: msg.buttons,
                 });
             });
     }

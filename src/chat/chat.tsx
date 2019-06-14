@@ -19,7 +19,10 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.botman.setChatServer(this.props.conf.chatServer);
 
         this.setState({messages:[], replyType:ReplyType.Text});
-        this.load_messages();
+        try {
+            this.load_messages();
+        }
+        catch(e){}
     }
 
     setLocale(text: string) {
@@ -33,9 +36,18 @@ export default class Chat extends Component<IChatProps, IChatState> {
     }
 
     load_messages() {
-       let that = this;
-       let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
-       if(storedJson != null) {
+        let that = this;
+        let expireson :string = window.localStorage.getItem("expires-on");
+        console.log("that.props.conf.expiresAfter="+that.props.conf.expiresAfter)
+            var exat =  new Date(parseInt(expireson));
+            console.log("expireson="+exat.toString());
+            console.log("date="+Date().toString());
+        if(that.props.conf.expiresAfter >0  && (parseInt(expireson) < new Date().getTime())){
+            console.log("canncello BOTMANmessages");
+            window.localStorage.setItem("BOTMAN_MESSAGES",null)
+        }
+        let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
+        if(storedJson != null) {
             let storedMessages : IMessage[] = JSON.parse(window.localStorage.getItem("BOTMAN_MESSAGES"));
             if(storedMessages != null) {
                     storedMessages.forEach(function(msg : IMessage) {
@@ -65,20 +77,25 @@ export default class Chat extends Component<IChatProps, IChatState> {
                 from: "chatbot"
             });
         }
+        console.log("finito mount");
         // Add event listener for widget API
-        window.addEventListener("message", (event: MessageEvent) => {
-            try {
-                this[event.data.method](...event.data.params);
-            } catch (e) {
-                //
+                    console.log("agggiunto  il listener");
+                    window.addEventListener("message", (event: MessageEvent) => {
+                        try {
+                            this[event.data.method](...event.data.params);
+                        } catch (e) {
+                            console.log(e);
+                        }
+                    });
             }
-        });
-    }
 
 
     initBot(text: string) {
-        if(!this.state.messages.length)
+        console.log("chiamo initBot su chat.js con messaggio="+text);
+        if(!this.state.messages.length){
+          console.log("faccio initbot con text = "+text);
           this.say(text, false);
+        }
     }
     sayAsBot(text: string) {
         this.writeToMessages({
@@ -114,7 +131,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea" class="wc-app">
+                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'height: calc(100% - 70px);':''}>
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -237,25 +254,29 @@ export default class Chat extends Component<IChatProps, IChatState> {
             msg.id = Chat.generateUuid();
         }
 
-	    if (msg.attachment === null) {
-	        msg.attachment = {}; // TODO: This renders IAttachment useless
-	    }
-  
-	    this.state.messages.push(msg); 
-	    this.setState({
-	        messages: this.state.messages
-	    });
+        if (msg.attachment === null) {
+            msg.attachment = {}; // TODO: This renders IAttachment useless
+        }
 
-	    if (msg.additionalParameters && msg.additionalParameters.replyType) {
-	        this.setState({
+        this.state.messages.push(msg); 
+        this.setState({
+            messages: this.state.messages
+        });
+
+        if (msg.additionalParameters && msg.additionalParameters.replyType) {
+                this.setState({
                 replyType: msg.additionalParameters.replyType
             });
         }
-
-        var json = JSON.stringify(this.state.messages);
-        window.localStorage.setItem("BOTMAN_MESSAGES", json);
-	};
+        try{
+            var json = JSON.stringify(this.state.messages);
+            var expiresAfter  = this.props.conf.expiresAfter;
+            window.localStorage.setItem("expires-on", JSON.stringify(new Date().getTime()+expiresAfter*60000));
+            window.localStorage.setItem("BOTMAN_MESSAGES", json);
+        }
+        catch(e){}; 
     }
+}
 
 interface IChatProps {
     userId: string,

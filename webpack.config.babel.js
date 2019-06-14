@@ -148,7 +148,7 @@ module.exports = {
 				if_return: true,
 				join_vars: true,
 				cascade: true,
-				drop_console: false
+				drop_console: true
 			}
 		})
 	] : []),
@@ -173,12 +173,7 @@ module.exports = {
 		contentBase: './src',
 		historyApiFallback: true,
 		open: true,
-		openPage: 'demo.html',
-                  headers: {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-    "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-  }
+		openPage: 'demo.html'
 
 	}
 };

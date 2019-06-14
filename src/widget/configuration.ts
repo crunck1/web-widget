@@ -26,7 +26,7 @@ export const defaultConfiguration: IConfiguration = {
     mobileWidth: '300px',
     videoHeight: 160,
     aboutLink: 'https://www.botsolver.com',
-    aboutText: '⚡ Powered by Botsolver',
+    aboutText: 'Powered by Botsolver',
     chatId: '',
     userId: '',
     userFirstName: '',
@@ -38,6 +38,7 @@ export const defaultConfiguration: IConfiguration = {
     echoConfiguration: {},
     echoEventName: '.message.created',
     echoChannelType: 'private',
-    changeLanguage: false
+    changeLanguage: false,
+    expiresAfter: -1
     
 };

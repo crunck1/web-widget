@@ -137,11 +137,16 @@ export default class Widget extends Component<any, IWidgetState> {
             isChatOpen: !this.state.isChatOpen,
             wasChatOpened: this.state.wasChatOpened
     	};
+        console.log("isChatOpen="+this.state.isChatOpen);
+        console.log("wasChatOpened="+this.state.wasChatOpened);
+        console.log("sendWidgetOpenedEvent="+this.props.conf.sendWidgetOpenedEvent);
     	if (!this.state.isChatOpen && !this.state.wasChatOpened) {
     	    if (this.props.conf.sendWidgetOpenedEvent) {
     	        setTimeout(() => {
+                    
+                console.log("chiamo sendOpenEvent");
     	            this.sendOpenEvent();
-                }, 500);
+                }, 2000);
             }
     		stateData.wasChatOpened = true;
     	}
@@ -181,6 +186,7 @@ export default class Widget extends Component<any, IWidgetState> {
         data.append('driver', 'web');
         data.append('eventName', 'widgetOpened');
         data.append('eventData', this.props.conf.widgetOpenedEventData);
+        console.log("chiamo initBot con messaggio="+intro);
         window.botmanChatWidget.initBot(intro);
 
         axios.post(this.props.conf.chatServer, data).then(response => {
