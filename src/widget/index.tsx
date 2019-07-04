@@ -18,7 +18,12 @@ function getUrlParameter(name: string, defaults = '') {
 }
 
 function getUserId(conf: IConfiguration) {
-    return conf.userId || generateRandomId();
+    if(conf.userId)
+        return conf.userId;
+    let userId  = window.localStorage.getItem("userId");
+    if(userId)
+        return userId;
+    return generateRandomId();
 }
 
 function getUserFirstName(conf: IConfiguration) {
@@ -35,7 +40,9 @@ function getUserEmail(conf: IConfiguration) {
 
 
 function generateRandomId() {
-    return Math.random().toString(36).substr(2, 6);
+    let userId = Math.random().toString(36).substr(2, 9);
+    window.localStorage.setItem("userId",userId);        
+    return userId;
 }
 
 function injectChat() {
