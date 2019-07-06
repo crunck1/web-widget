@@ -65,9 +65,11 @@ export default class Widget extends Component<any, IWidgetState> {
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
         conf.wrapperHeight = desktopHeight;
         const changeLanguage = conf.changeLanguage;
+        //alert(window.screen.width);
+        //alert("isMobile="+isMobile);
 
         let wrapperStyle;
-
+        
         if (!isChatOpen && (isMobile || conf.alwaysUseFloatingButton)) {
             wrapperStyle = { ...mobileClosedWrapperStyle}; // closed mobile floating button
         } else if (!isMobile){

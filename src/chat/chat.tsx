@@ -131,7 +131,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'height: calc(100% - 70px);':''}>
+                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'width:1px;min-width:100%;height: calc(100% - 70px);':''}>
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -206,6 +206,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
             // Reset input value
             this.input.value = "";
+            if(window.screen.width < 500)
+                this.input.blur();
         }
     };
 
