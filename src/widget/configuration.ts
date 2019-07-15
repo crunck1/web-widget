@@ -39,6 +39,7 @@ export const defaultConfiguration: IConfiguration = {
     echoEventName: '.message.created',
     echoChannelType: 'private',
     changeLanguage: false,
-    expiresAfter: -1
+    expiresAfter: -1,
+    authorisedDomain: '',
     
 };

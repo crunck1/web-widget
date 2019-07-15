@@ -38,14 +38,28 @@ export default class Api {
     setBubbleAvatarUrl(text: string){
         this.widget.setbubbleAvatarUrl(text);
     }
-    initBot(text: string){
+    initBot(text: string) {
         console.log("chiamo initBot sull api con messaggio="+text);
-        this.callChatWidget({
-            method: 'initBot',
-            params: [
-                text
-            ]
-        })
+        if(!this.widget.state.iframeReady){
+             let timerId = setInterval(() => { 
+                     if(this.widget.state.iframeReady) {
+                        this.callChatWidget({
+                            method: 'initBot',
+                            params: [
+                                text
+                            ]
+                        });                
+                        clearInterval(timerId); 
+                        console.log('stop callchatwidget'); }}, 1000);
+        }
+        else{
+            this.callChatWidget({
+                method: 'initBot',
+                params: [
+                    text
+                ]
+            });
+        }
     }
 
     callChatWidget(payload: Object) {
@@ -64,6 +78,7 @@ export default class Api {
             }
         }
     }
+
 
     writeToMessages(message: IMessage) {
         this.callChatWidget({

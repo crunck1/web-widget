@@ -77,16 +77,30 @@ export default class Chat extends Component<IChatProps, IChatState> {
                 from: "chatbot"
             });
         }
-        console.log("finito mount");
         // Add event listener for widget API
-                    console.log("agggiunto  il listener");
                     window.addEventListener("message", (event: MessageEvent) => {
-                        try {
-                            this[event.data.method](...event.data.params);
-                        } catch (e) {
-                            console.log(e);
+                        if(typeof this.props.conf.authorisedDomain != 'undefined' &&
+                           this.props.conf.authorisedDomain !=''){
+                            console.log("Sicurezza OK")
+                            if (event.origin == this.props.conf.authorisedDomain)
+                                try {
+                                    this[event.data.method](...event.data.params);
+                                } catch (e) {
+                                    console.log(e);
+                                }
+                            else
+                                console.log("accesso non autorizzato")
+                        }
+                        else{
+                            console.log("Attenzione! sicurezza compromessa")
+                            try {
+                                this[event.data.method](...event.data.params);
+                            } catch (e) {
+                                console.log(e);
+                            }
                         }
                     });
+        window.parent.postMessage({message:"ready"}, '*');
             }
 
 
@@ -131,7 +145,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'width:1px;min-width:100%;height: calc(100% - 70px);':''}>
+                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'height: calc(100% - 70px);':''}>
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -206,8 +220,6 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
             // Reset input value
             this.input.value = "";
-            if(window.screen.width < 500)
-                this.input.blur();
         }
     };
 

@@ -146,4 +146,5 @@ export interface IConfiguration {
 
     changeLanguage: boolean,
     expiresAfter: number,
+    authorisedDomain?: string
 }

@@ -27,6 +27,7 @@ export default class Widget extends Component<any, IWidgetState> {
         this.state.pristine = true;
         this.state.wasChatOpened = false;
         this.state.baloonSrc='';
+        this.state.iframeReady=false;
     }
 
     componentDidMount() {
@@ -37,6 +38,16 @@ export default class Widget extends Component<any, IWidgetState> {
         if (typeof this.props.conf.init === 'function') {
             this.props.conf.init(window.botmanChatWidget);
         }
+        window.addEventListener("message", (event: MessageEvent) => {
+            if(event.data.message=='ready')
+                try {
+                    this.setState({
+                         iframeReady: true
+                     });
+                } catch (e) {
+                    console.log(e);
+                }
+        });
     }
 
     private setupEcho() {
@@ -65,11 +76,9 @@ export default class Widget extends Component<any, IWidgetState> {
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
         conf.wrapperHeight = desktopHeight;
         const changeLanguage = conf.changeLanguage;
-        //alert(window.screen.width);
-        //alert("isMobile="+isMobile);
 
         let wrapperStyle;
-        
+
         if (!isChatOpen && (isMobile || conf.alwaysUseFloatingButton)) {
             wrapperStyle = { ...mobileClosedWrapperStyle}; // closed mobile floating button
         } else if (!isMobile){
@@ -144,11 +153,7 @@ export default class Widget extends Component<any, IWidgetState> {
         console.log("sendWidgetOpenedEvent="+this.props.conf.sendWidgetOpenedEvent);
     	if (!this.state.isChatOpen && !this.state.wasChatOpened) {
     	    if (this.props.conf.sendWidgetOpenedEvent) {
-    	        setTimeout(() => {
-                    
-                console.log("chiamo sendOpenEvent");
-    	            this.sendOpenEvent();
-                }, 2000);
+    	        this.sendOpenEvent();
             }
     		stateData.wasChatOpened = true;
     	}
@@ -190,14 +195,15 @@ export default class Widget extends Component<any, IWidgetState> {
         data.append('eventData', this.props.conf.widgetOpenedEventData);
         console.log("chiamo initBot con messaggio="+intro);
         window.botmanChatWidget.initBot(intro);
+        
+        if(this.props.conf.widgetOpenedEventData!='')
+            axios.post(this.props.conf.chatServer, data).then(response => {
+                const messages = response.data.messages || [];
 
-        axios.post(this.props.conf.chatServer, data).then(response => {
-            const messages = response.data.messages || [];
-
-            messages.forEach((message : IMessage) => {
-                window.botmanChatWidget.writeToMessages(message);
+                messages.forEach((message : IMessage) => {
+                    window.botmanChatWidget.writeToMessages(message);
+                });
             });
-        });
     }
 }
 
@@ -206,6 +212,7 @@ interface IWidgetState {
     pristine: boolean,
     wasChatOpened: boolean,
     baloonSrc: string,
+    iframeReady: boolean,
 }
 
 
