@@ -66,6 +66,10 @@ export default class Chat extends Component<IChatProps, IChatState> {
            console.log("new visitor. no stored messages");
        }
     }
+    scrollToBottom = () => {
+        const messageArea = document.getElementById('messageArea');
+        messageArea.scrollTop = messageArea.scrollHeight;
+    };
 
     componentDidMount() {
         if (!this.state.messages.length &&
@@ -101,7 +105,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
                         }
                     });
         window.parent.postMessage({message:"ready"}, '*');
-            }
+    }
 
 
     initBot(text: string) {
@@ -145,7 +149,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
         const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'height: calc(100% - 70px);':''}>
+                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'width:1px;min-width:100%;height: calc(100% - 70px);':''}>
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -164,6 +168,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
                         ref={input => {
                             this.input = input as HTMLInputElement;
                         }}
+                        onFocus={this.handleOnFocus}
                         onKeyPress={this.handleKeyPress}
                         autofocus
                     />
@@ -214,12 +219,22 @@ export default class Chat extends Component<IChatProps, IChatState> {
         );
     }
 
+    handleOnFocus = (e: FocusEvent) => {
+            if(window.screen.width < 500){
+                setTimeout(() => {
+    	             this.scrollToBottom();
+                }, 500);                  
+            }  
+    };
     handleKeyPress = (e: KeyboardEvent) => {
         if (e.keyCode === 13 && this.input.value.replace(/\s/g, "")) {
             this.say(this.input.value);
 
             // Reset input value
             this.input.value = "";
+            if(window.screen.width < 500){    
+                this.input.blur();
+            }
         }
     };
 
