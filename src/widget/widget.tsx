@@ -158,7 +158,19 @@ export default class Widget extends Component<any, IWidgetState> {
     		stateData.wasChatOpened = true;
     	}
     	this.setState(stateData);
+        this.dispatch_event();
+        
     };
+    dispatch_event(){
+        if(this.state.isChatOpen){
+            const event = new Event('chat_opened');
+            window.dispatchEvent(event);
+        }
+        else{
+            const event = new Event('chat_closed');
+            window.dispatchEvent(event);
+        }
+    }
 
     open() {
         this.setState({
@@ -166,6 +178,7 @@ export default class Widget extends Component<any, IWidgetState> {
             isChatOpen: true,
             wasChatOpened: true
         });
+        this.dispatch_event();
     }
 
     close() {
@@ -173,6 +186,7 @@ export default class Widget extends Component<any, IWidgetState> {
             pristine: false,
             isChatOpen: false
         });
+        this.dispatch_event();
     }
     initBot(text: string){
         window.botmanChatWidget.initBot(text);
