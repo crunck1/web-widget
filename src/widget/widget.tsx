@@ -148,9 +148,7 @@ export default class Widget extends Component<any, IWidgetState> {
             isChatOpen: !this.state.isChatOpen,
             wasChatOpened: this.state.wasChatOpened
     	};
-        console.log("isChatOpen="+this.state.isChatOpen);
-        console.log("wasChatOpened="+this.state.wasChatOpened);
-        console.log("sendWidgetOpenedEvent="+this.props.conf.sendWidgetOpenedEvent);
+
     	if (!this.state.isChatOpen && !this.state.wasChatOpened) {
     	    if (this.props.conf.sendWidgetOpenedEvent) {
     	        this.sendOpenEvent();
@@ -173,11 +171,19 @@ export default class Widget extends Component<any, IWidgetState> {
     }
 
     open() {
-        this.setState({
+    	let stateData = {
             pristine: false,
             isChatOpen: true,
             wasChatOpened: true
-        });
+    	};
+
+    	if (!this.state.isChatOpen && !this.state.wasChatOpened) {
+    	    if (this.props.conf.sendWidgetOpenedEvent) {
+    	        this.sendOpenEvent();
+            }
+    	    stateData.wasChatOpened = true;
+    	}
+        this.setState(stateData);
         this.dispatch_event();
     }
 
