@@ -5,9 +5,15 @@ import {IConfiguration} from "../typings";
 import 'preact/devtools';
 
 if (window.attachEvent) {
-    window.attachEvent('onload', injectChat);
+    if(window.botWidget && window.botWidget.enableRemoteLoading)
+        window.addEventListener('loadWidget', injectChat, false);
+    else
+        window.attachEvent('onload', injectChat);
 } else {
-    window.addEventListener('load', injectChat, false);
+    if(window.botWidget && window.botWidget.enableRemoteLoading)
+        window.addEventListener('loadWidget', injectChat, false);
+    else
+        window.addEventListener('load', injectChat, false);
 }
 
 function getUrlParameter(name: string, defaults = '') {

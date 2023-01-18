@@ -41,5 +41,6 @@ export const defaultConfiguration: IConfiguration = {
     changeLanguage: false,
     expiresAfter: -1,
     authorisedDomain: '',
+    enableRemoteLoading: false
     
 };

@@ -63,7 +63,7 @@
 <script>
 var locale = navigator.language || navigator.browserLanguage || ( navigator.languages || [ "it" ] ) [0];    
 var botWidget = {
-    frameEndpoint: 'http://192.168.1.99:8081/chat.html',
+    frameEndpoint: 'http://localhost:8081/chat.html',
     chatServer:  'https://app.botsolver.com/botservice/web/88?locale=it',
     title: 'web chat',
     //introMessage: 'ciao, sono un assistente virtuale, come posso aiutarti?',
@@ -71,7 +71,8 @@ var botWidget = {
     placeholderText: 'Scrivimi qualcosa',
    introMessage:'GET_STARTED_PAYLOAD',
     sendWidgetOpenedEvent:true,
-    expiresAfter:10
+    expiresAfter:10,
+    enableRemoteLoading: true
 };
 console.log(location.protocol+'//'+location.hostname)
 </script>

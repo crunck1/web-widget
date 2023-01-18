@@ -146,5 +146,6 @@ export interface IConfiguration {
 
     changeLanguage: boolean,
     expiresAfter: number,
-    authorisedDomain?: string
+    authorisedDomain?: string,
+    enableRemoteLoading: boolean
 }
