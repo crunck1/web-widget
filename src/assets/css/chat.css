@@ -207,6 +207,12 @@ div.loading-dots .dot-lg {
     color: white;
     text-align: center;
 }
+/**  bottoni disabilitati*/
+div[disabled]
+{
+  pointer-events: none;
+  opacity: 0.7;
+}
 
 /* New features */
 

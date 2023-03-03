@@ -9,7 +9,7 @@ export default class Action extends MessageType {
         const message = props.message;
 
         const buttons = message.actions.map((action: IAction) => {
-            return <div class="btn" onClick={() => this.performAction(action)}>
+            return <div disabled={this.state.disabled}  class="btn" onClick={() => this.performAction(action)}>
                 {action.text}
             </div>;
         });
@@ -26,7 +26,7 @@ export default class Action extends MessageType {
 
     performAction(action: IAction) {
         botman.callAPI(action.value, true, null, (msg: IMessage) => {
-            this.setState({attachmentsVisible : false });
+            this.setState({attachmentsVisible : false,disabled: true });
             this.props.messageHandler({
                 text: msg.text,
                 type: msg.type,

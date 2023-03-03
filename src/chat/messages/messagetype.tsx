@@ -11,6 +11,7 @@ export default abstract class MessageType extends Component<IMessageTypeProps, I
             attachmentsVisible: true,
             position: 0,
             imgContainerDimensions: {},
+            disabled: false,
         };
     }
 

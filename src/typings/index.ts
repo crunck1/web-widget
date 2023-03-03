@@ -22,6 +22,7 @@ export interface IMessageTypeState {
     attachmentsVisible: boolean,
     position: number,
     imgContainerDimensions: any,
+    disabled:boolean,
 }
 
 export interface IMessage {
