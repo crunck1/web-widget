@@ -24,9 +24,10 @@ export default class Action extends MessageType {
         );
     }
 
-    performAction(action: IAction) {
+    async performAction(action: IAction) {
+        this.setState({disabled: true });
         botman.callAPI(action.value, true, null, (msg: IMessage) => {
-            this.setState({attachmentsVisible : false,disabled: true });
+            this.setState({attachmentsVisible : false});
             this.props.messageHandler({
                 text: msg.text,
                 type: msg.type,
