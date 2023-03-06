@@ -39,7 +39,6 @@ export default class Api {
         this.widget.setbubbleAvatarUrl(text);
     }
     initBot(text: string) {
-        console.log("chiamo initBot sull api con messaggio="+text);
         if(!this.widget.state.iframeReady){
              let timerId = setInterval(() => { 
                      if(this.widget.state.iframeReady) {
@@ -50,7 +49,7 @@ export default class Api {
                             ]
                         });                
                         clearInterval(timerId); 
-                        console.log('stop callchatwidget'); }}, 1000);
+                    }}, 1000);
         }
         else{
             this.callChatWidget({
@@ -64,11 +63,9 @@ export default class Api {
 
     callChatWidget(payload: Object) {
         if (this.isOpen()) {
-            console.log("la chat è aperta");
             (document.getElementById('chatBotManFrame') as HTMLIFrameElement).contentWindow.postMessage(payload, '*');
         } else {
             try {
-                console.log("la chat NON è aperta");
                 this.open();
                 setTimeout(() => {
                     (document.getElementById('chatBotManFrame') as HTMLIFrameElement).contentWindow.postMessage(payload, '*');

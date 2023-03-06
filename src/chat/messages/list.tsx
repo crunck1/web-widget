@@ -53,15 +53,12 @@ export default class ListType extends MessageType {
                     });
                 }, 50);
         super.componentDidMount();
-        console.log("finito componentDidMount");
+        /* console.log("finito componentDidMount"); */
           
     }
 
     setLeftArrowDisplay(){
-        console.log("faccio setLeftArrowDisplay");
-        console.log("imgContainer/2="+(this.state.imgContainerDimensions.offsetWidth/2));
         if(this.state.position+15>this.state.imgContainerDimensions.offsetWidth/2){
-           console.log("mostro previous arrow");
            return 'display:inline';
         } 
         return 'display:none';
@@ -70,11 +67,7 @@ export default class ListType extends MessageType {
 
 
     setRightArrowDisplay(){
-            console.log("scrollWidth="+this.state.imgContainerDimensions.scrollWidth);
-            console.log("offsetWidth="+this.state.imgContainerDimensions.offsetWidth);
-            console.log("position="+this.state.position);
             if(this.state.imgContainerDimensions.scrollWidth-this.state.position>this.state.imgContainerDimensions.offsetWidth){
-                    console.log("mostro next arrow");
                     return 'display:inline';
                 }
         

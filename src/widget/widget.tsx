@@ -213,7 +213,7 @@ export default class Widget extends Component<any, IWidgetState> {
         data.append('driver', 'web');
         data.append('eventName', 'widgetOpened');
         data.append('eventData', this.props.conf.widgetOpenedEventData);
-        console.log("chiamo initBot con messaggio="+intro);
+       /*  console.log("chiamo initBot con messaggio="+intro); */
         window.botmanChatWidget.initBot(intro);
         
         if(this.props.conf.widgetOpenedEventData!='')

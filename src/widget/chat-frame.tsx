@@ -9,7 +9,6 @@ export default class ChatFrame extends Component<any, any> {
     }
 
     render({iFrameSrc, isMobile, conf}: IChatFrameProps,{}) {
-        console.log('chatBackgroundColor='+conf.chatBackgroundColor);
         let dynamicConf = window.botWidget || {} as IConfiguration; // these configuration are loaded when the chat frame is opened
         let encodedConf = encodeURIComponent(JSON.stringify({...conf, ...dynamicConf}));
         return (

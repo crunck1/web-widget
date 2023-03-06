@@ -38,12 +38,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
     load_messages() {
         let that = this;
         let expireson :string = window.localStorage.getItem("expires-on");
-        console.log("that.props.conf.expiresAfter="+that.props.conf.expiresAfter)
-            var exat =  new Date(parseInt(expireson));
-            console.log("expireson="+exat.toString());
-            console.log("date="+Date().toString());
+        var exat =  new Date(parseInt(expireson));
         if(that.props.conf.expiresAfter >0  && (parseInt(expireson) < new Date().getTime())){
-            console.log("canncello BOTMANmessages");
+            /* console.log("canncello BOTMANmessages"); */
             window.localStorage.setItem("BOTMAN_MESSAGES",null)
         }
         let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
@@ -85,7 +82,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
                     window.addEventListener("message", (event: MessageEvent) => {
                         if(typeof this.props.conf.authorisedDomain != 'undefined' &&
                            this.props.conf.authorisedDomain !=''){
-                            console.log("Sicurezza OK")
+                            /* console.log("Sicurezza OK") */
                             if (event.origin == this.props.conf.authorisedDomain)
                                 try {
                                     this[event.data.method](...event.data.params);
@@ -109,9 +106,9 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
 
     initBot(text: string) {
-        console.log("chiamo initBot su chat.js con messaggio="+text);
+        /* console.log("chiamo initBot su chat.js con messaggio="+text); */
         if(!this.state.messages.length){
-          console.log("faccio initbot con text = "+text);
+          /* console.log("faccio initbot con text = "+text); */
           this.say(text, false);
         }
     }
