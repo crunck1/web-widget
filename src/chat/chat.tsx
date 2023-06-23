@@ -32,6 +32,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
           this.whisper('CHANGE_TO_ITA_LOCALE');
         else if(text==='en')
           this.whisper('CHANGE_TO_ENG_LOCALE');
+        else if(text==='fr')
+          this.whisper('CHANGE_TO_FR_LOCALE');
 
     }
 
@@ -220,8 +222,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
             if(window.screen.width < 500){
                 setTimeout(() => {
     	             this.scrollToBottom();
-                }, 500);                  
-            }  
+                }, 500);
+            }
     };
     handleKeyPress = (e: KeyboardEvent) => {
         if (e.keyCode === 13 && this.input.value.replace(/\s/g, "")) {
@@ -229,7 +231,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
             // Reset input value
             this.input.value = "";
-            if(window.screen.width < 500){    
+            if(window.screen.width < 500){
                 this.input.blur();
             }
         }
@@ -284,7 +286,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
             msg.attachment = {}; // TODO: This renders IAttachment useless
         }
 
-        this.state.messages.push(msg); 
+        this.state.messages.push(msg);
         this.setState({
             messages: this.state.messages
         });
@@ -300,7 +302,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
             window.localStorage.setItem("expires-on", JSON.stringify(new Date().getTime()+expiresAfter*60000));
             window.localStorage.setItem("BOTMAN_MESSAGES", json);
         }
-        catch(e){}; 
+        catch(e){};
     }
 }
 

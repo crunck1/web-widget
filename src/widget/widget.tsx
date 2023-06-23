@@ -28,6 +28,7 @@ export default class Widget extends Component<any, IWidgetState> {
         this.state.wasChatOpened = false;
         this.state.baloonSrc='';
         this.state.iframeReady=false;
+        this.state.locale='';
     }
 
     componentDidMount() {
@@ -70,7 +71,15 @@ export default class Widget extends Component<any, IWidgetState> {
 
     render(props: IWidgetProps, state: IWidgetState) {
 
+
         const {conf, isMobile} = props;
+        const params = conf && conf.chatServer? (new URL(conf.chatServer)).searchParams : null;
+        const loc = params ? params.get("locale") : null;
+        if(loc && this.state.locale == '') {
+            this.setState({
+                locale: loc
+            });
+        }
         const {isChatOpen, pristine, baloonSrc} = state;
         const wrapperWidth = {width: isMobile ? conf.mobileWidth : conf.desktopWidth};
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
@@ -93,7 +102,7 @@ export default class Widget extends Component<any, IWidgetState> {
             wrapperStyle = mobileOpenWrapperStyle; // open mobile wrapper should have no border
         }
 
-        
+
 
         return (
 
@@ -114,11 +123,13 @@ export default class Widget extends Component<any, IWidgetState> {
                                     fontSize: '15px', fontWeight: 'normal', color: conf.headerTextColor
                                 }}>
                                     {conf.title}
-                                    {(changeLanguage === true) ? 
+                                    {(changeLanguage === true) ?
                                     [
-                                     <div style={{paddingLeft:10}} onClick={() =>this.setLocale('it')}>ITA</div>,
+                                     <div style={ this.state.locale == 'it' || this.state.locale == '' ? {paddingLeft:10, fontWeight: 'bold', color:conf.headerTextColor} : {paddingLeft:10,  fontWeight: 'normal',color:conf.headerTextColor } } onClick={() =>this.setLocale('it')}>ITA</div>,
                                      <div style={{color:conf.headerTextColor,paddingLeft:2,paddingRight:2}}>|</div>,
-                                     <div style={{color:conf.headerTextColor}} onClick={() => this.setLocale('en')}>ENG</div>
+                                     <div style={ this.state.locale == 'en' ? { fontWeight: 'bold', color:conf.headerTextColor} : { fontWeight: 'normal',color:conf.headerTextColor } } onClick={() => this.setLocale('en')}>ENG</div>,
+                                     <div style={{color:conf.headerTextColor,paddingLeft:2,paddingRight:2}}>|</div>,
+                                     <div style={ this.state.locale == 'fr' ? { fontWeight: 'bold', color:conf.headerTextColor} : { fontWeight: 'normal',color:conf.headerTextColor } } onClick={() => this.setLocale('fr')}>FR</div>
                                     ]
                                     :''}
                                 </div>
@@ -157,7 +168,7 @@ export default class Widget extends Component<any, IWidgetState> {
     	}
     	this.setState(stateData);
         this.dispatch_event();
-        
+
     };
     dispatch_event(){
         if(this.state.isChatOpen){
@@ -198,6 +209,9 @@ export default class Widget extends Component<any, IWidgetState> {
         window.botmanChatWidget.initBot(text);
     }
     setLocale(text: string) {
+        this.setState({
+            locale: text
+        });
         window.botmanChatWidget.setLocale(text);
     }
 
@@ -215,7 +229,7 @@ export default class Widget extends Component<any, IWidgetState> {
         data.append('eventData', this.props.conf.widgetOpenedEventData);
        /*  console.log("chiamo initBot con messaggio="+intro); */
         window.botmanChatWidget.initBot(intro);
-        
+
         if(this.props.conf.widgetOpenedEventData!='')
             axios.post(this.props.conf.chatServer, data).then(response => {
                 const messages = response.data.messages || [];
@@ -233,6 +247,7 @@ interface IWidgetState {
     wasChatOpened: boolean,
     baloonSrc: string,
     iframeReady: boolean,
+    locale: string,
 }
 
 
