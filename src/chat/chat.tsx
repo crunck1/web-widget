@@ -1,7 +1,7 @@
 import { h, Component } from "preact";
 import MessageArea from "./message-area";
 import { botman } from "./botman";
-import {IMessage, IConfiguration} from "../typings";
+import { IMessage, IConfiguration } from "../typings";
 
 export default class Chat extends Component<IChatProps, IChatState> {
 
@@ -15,61 +15,61 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
         this.botman = botman;
         this.botman.setUserId(this.props.userId);
-        this.botman.setUserName(this.props.userFirstName,this.props.userLastName,this.props.userEmail);
+        this.botman.setUserName(this.props.userFirstName, this.props.userLastName, this.props.userEmail);
         this.botman.setChatServer(this.props.conf.chatServer);
 
-        this.setState({messages:[], replyType:ReplyType.Text});
+        this.setState({ messages: [], replyType: ReplyType.Text });
         try {
             this.load_messages();
         }
-        catch(e){}
+        catch (e) { }
     }
 
     setLocale(text: string) {
 
         this.botman.setLocale(text);
-        if(text==='it')
-          this.whisper('CHANGE_TO_ITA_LOCALE');
-        else if(text==='en')
-          this.whisper('CHANGE_TO_ENG_LOCALE');
+        if (text === 'it')
+            this.whisper('CHANGE_TO_ITA_LOCALE');
+        else if (text === 'en')
+            this.whisper('CHANGE_TO_ENG_LOCALE');
 
     }
 
     load_messages() {
         let that = this;
-        let expireson :string = window.localStorage.getItem("expires-on");
-        console.log("that.props.conf.expiresAfter="+that.props.conf.expiresAfter)
-            var exat =  new Date(parseInt(expireson));
-            console.log("expireson="+exat.toString());
-            console.log("date="+Date().toString());
-        if(that.props.conf.expiresAfter >0  && (parseInt(expireson) < new Date().getTime())){
+        let expireson: string = window.localStorage.getItem("expires-on");
+        console.log("that.props.conf.expiresAfter=" + that.props.conf.expiresAfter)
+        var exat = new Date(parseInt(expireson));
+        console.log("expireson=" + exat.toString());
+        console.log("date=" + Date().toString());
+        if (that.props.conf.expiresAfter > 0 && (parseInt(expireson) < new Date().getTime())) {
             console.log("canncello BOTMANmessages");
-            window.localStorage.setItem("BOTMAN_MESSAGES",null)
+            window.localStorage.setItem("BOTMAN_MESSAGES", null)
         }
-        let storedJson : string = window.localStorage.getItem("BOTMAN_MESSAGES");
-        if(storedJson != null) {
-            let storedMessages : IMessage[] = JSON.parse(window.localStorage.getItem("BOTMAN_MESSAGES"));
-            if(storedMessages != null) {
-                    storedMessages.forEach(function(msg : IMessage) {
-                        that.state.messages.push(msg);
+        let storedJson: string = window.localStorage.getItem("BOTMAN_MESSAGES");
+        if (storedJson != null) {
+            let storedMessages: IMessage[] = JSON.parse(window.localStorage.getItem("BOTMAN_MESSAGES"));
+            if (storedMessages != null) {
+                storedMessages.forEach(function (msg: IMessage) {
+                    that.state.messages.push(msg);
+                    that.setState({
+                        messages: that.state.messages
+                    });
+                    if (msg.additionalParameters && msg.additionalParameters.replyType) {
                         that.setState({
-                            messages: that.state.messages
+                            replyType: msg.additionalParameters.replyType
                         });
-                        if (msg.additionalParameters && msg.additionalParameters.replyType) {
-                            that.setState({
-                                replyType: msg.additionalParameters.replyType
-                            });
-                        }
+                    }
                 });
             }
-       } else {
-           console.log("new visitor. no stored messages");
-       }
+        } else {
+            console.log("new visitor. no stored messages");
+        }
     }
 
     componentDidMount() {
         if (!this.state.messages.length &&
-             this.props.conf.introMessage &&
+            this.props.conf.introMessage &&
             !this.props.conf.sendWidgetOpenedEvent) {
             this.writeToMessages({
                 text: this.props.conf.introMessage,
@@ -79,22 +79,22 @@ export default class Chat extends Component<IChatProps, IChatState> {
         }
         console.log("finito mount");
         // Add event listener for widget API
-                    console.log("agggiunto  il listener");
-                    window.addEventListener("message", (event: MessageEvent) => {
-                        try {
-                            this[event.data.method](...event.data.params);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    });
+        console.log("agggiunto  il listener");
+        window.addEventListener("message", (event: MessageEvent) => {
+            try {
+                this[event.data.method](...event.data.params);
+            } catch (e) {
+                console.log(e);
             }
+        });
+    }
 
 
     initBot(text: string) {
-        console.log("chiamo initBot su chat.js con messaggio="+text);
-        if(!this.state.messages.length){
-          console.log("faccio initbot con text = "+text);
-          this.say(text, false);
+        console.log("chiamo initBot su chat.js con messaggio=" + text);
+        if (!this.state.messages.length) {
+            console.log("faccio initbot con text = " + text);
+            this.say(text, false);
         }
     }
     sayAsBot(text: string) {
@@ -127,11 +127,11 @@ export default class Chat extends Component<IChatProps, IChatState> {
         this.say(text, false);
     }
 
-    render({}, state: IChatState) {
-        const styleTextarea = 'bottom:'+(window.screen.width<500? 15:0)+'px;';
+    render({ }, state: IChatState) {
+        const styleTextarea = 'bottom:' + (window.screen.width < 500 ? 15 : 0) + 'px;';
         return (
             <div style="height:100%">
-                <div id="messageArea" class="wc-app" style={window.screen.width<500? 'height: calc(100% - 70px);':''}>
+                <div id="messageArea" class="wc-app" style={window.screen.width < 500 ? 'height: calc(100% - 70px);' : ''}>
                     <MessageArea
                         messages={state.messages}
                         conf={this.props.conf}
@@ -159,12 +159,12 @@ export default class Chat extends Component<IChatProps, IChatState> {
                     <div>
 
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
-                             onClick={this.handleSendClick}
-                             style="cursor: pointer; position: absolute; width: 25px; bottom: 19px; right: 16px; z-index: 1000"
-                             viewBox="0 0 535.5 535.5">
+                            onClick={this.handleSendClick}
+                            style="cursor: pointer; position: absolute; width: 25px; bottom: 19px; right: 16px; z-index: 1000"
+                            viewBox="0 0 535.5 535.5">
                             <g>
                                 <g id="send">
-                                    <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75"/>
+                                    <polygon points="0,497.25 535.5,267.75 0,38.25 0,216.75 382.5,267.75 0,318.75" />
                                 </g>
                             </g>
                         </svg>
@@ -258,23 +258,37 @@ export default class Chat extends Component<IChatProps, IChatState> {
             msg.attachment = {}; // TODO: This renders IAttachment useless
         }
 
-        this.state.messages.push(msg); 
+        let foundMessage: IMessage | undefined = undefined;
+
+        for (let i = 0; i < this.state.messages.length; i++) {
+            if (this.state.messages[i].id === msg.id) {
+                foundMessage = this.state.messages[i];
+                break;
+            }
+        }
+        //const old_message = this.state.messages.find((m: IMessage) => msg.id = msg.id)
+        /* if(this.state.messages.some((m: IMessage)=>msg.id=msg.id))
+            m.text += msg.text */
+        console.log(this.state.messages)
+        if(foundMessage)
+            msg.text += foundMessage.text;
+        this.state.messages.push(msg);
         this.setState({
             messages: this.state.messages
         });
 
         if (msg.additionalParameters && msg.additionalParameters.replyType) {
-                this.setState({
+            this.setState({
                 replyType: msg.additionalParameters.replyType
             });
         }
-        try{
+        try {
             var json = JSON.stringify(this.state.messages);
-            var expiresAfter  = this.props.conf.expiresAfter;
-            window.localStorage.setItem("expires-on", JSON.stringify(new Date().getTime()+expiresAfter*60000));
+            var expiresAfter = this.props.conf.expiresAfter;
+            window.localStorage.setItem("expires-on", JSON.stringify(new Date().getTime() + expiresAfter * 60000));
             window.localStorage.setItem("BOTMAN_MESSAGES", json);
         }
-        catch(e){}; 
+        catch (e) { };
     }
 }
 
