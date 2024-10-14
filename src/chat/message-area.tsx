@@ -4,21 +4,21 @@ import ActionType from './messages/action';
 import TextType from "./messages/text";
 import ButtonsType from "./messages/buttons";
 import ListType from "./messages/list";
-import {IConfiguration, IMessage, IMessageTypeState} from '../typings';
+import { IConfiguration, IMessage, IMessageTypeState } from '../typings';
 import TypingIndicator from "./messages/typing-indicator";
 import MessageHolder from "./message-holder";
 
 export default class MessageArea extends Component<IMessageAreaProps, any> {
 
-    render(props: IMessageAreaProps, {}) {
-    	const styleChat = 'height:'+(props.conf.wrapperHeight-60)+'px;';
+	render(props: IMessageAreaProps, { }) {
+		const styleChat = 'height:' + (props.conf.wrapperHeight - 60) + 'px;';
 
 		let calculatedTimeout = 0;
-    	return (
-    		<ol class="chat" style={styleChat} >
-    			{
-    				props.messages.map((message) => {
-    					const listElement = <MessageHolder
+		return (
+			<ol class="chat" style={styleChat} >
+				{
+					props.messages.map((message) => {
+						const listElement = <MessageHolder
 							message={message}
 							calculatedTimeout={calculatedTimeout}
 							messageHandler={props.messageHandler}
@@ -28,11 +28,21 @@ export default class MessageArea extends Component<IMessageAreaProps, any> {
 						calculatedTimeout += message.timeout * 1000;
 
 						return listElement;
-    				})
-    			}
-    		</ol>
-    	);
-    }
+					})
+				}
+				{
+					props.loading && (<li class="clearfix">
+						<div className="loading-dots">
+							<span className="dot"></span>
+							<span className="dot"></span>
+							<span className="dot"></span>
+						</div>
+					</li>)
+				}
+			</ol>
+
+		);
+	}
 
 }
 
@@ -40,4 +50,5 @@ interface IMessageAreaProps {
 	conf: IConfiguration,
 	messages: IMessage[],
 	messageHandler: Function,
+    loading: boolean,
 };

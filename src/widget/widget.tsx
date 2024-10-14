@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {h, Component} from 'preact';
+import { h, Component } from 'preact';
 import ChatFrame from './chat-frame';
 import ChatFloatingButton from './chat-floating-button';
 import ChatTitleMsg from './chat-title-msg';
@@ -12,7 +12,7 @@ import {
     mobileClosedWrapperStyle,
     desktopClosedWrapperStyleChat
 } from './style';
-import {IConfiguration, IMessage} from '../typings';
+import { IConfiguration, IMessage } from '../typings';
 import Echo from "laravel-echo";
 
 export default class Widget extends Component<any, IWidgetState> {
@@ -26,7 +26,7 @@ export default class Widget extends Component<any, IWidgetState> {
         this.state.isChatOpen = false;
         this.state.pristine = true;
         this.state.wasChatOpened = false;
-        this.state.baloonSrc='';
+        this.state.baloonSrc = '';
     }
 
     componentDidMount() {
@@ -59,9 +59,9 @@ export default class Widget extends Component<any, IWidgetState> {
 
     render(props: IWidgetProps, state: IWidgetState) {
 
-        const {conf, isMobile} = props;
-        const {isChatOpen, pristine, baloonSrc} = state;
-        const wrapperWidth = {width: isMobile ? conf.mobileWidth : conf.desktopWidth};
+        const { conf, isMobile } = props;
+        const { isChatOpen, pristine, baloonSrc } = state;
+        const wrapperWidth = { width: isMobile ? conf.mobileWidth : conf.desktopWidth };
         const desktopHeight = (window.innerHeight - 100 < conf.desktopHeight) ? window.innerHeight - 90 : conf.desktopHeight;
         conf.wrapperHeight = desktopHeight;
         const changeLanguage = conf.changeLanguage;
@@ -69,20 +69,20 @@ export default class Widget extends Component<any, IWidgetState> {
         let wrapperStyle;
 
         if (!isChatOpen && (isMobile || conf.alwaysUseFloatingButton)) {
-            wrapperStyle = { ...mobileClosedWrapperStyle}; // closed mobile floating button
-        } else if (!isMobile){
+            wrapperStyle = { ...mobileClosedWrapperStyle }; // closed mobile floating button
+        } else if (!isMobile) {
             wrapperStyle = (isChatOpen || this.state.wasChatOpened) ?
                 (isChatOpen) ?
-                    { ...desktopWrapperStyle, ...wrapperWidth} // desktop mode, button style
+                    { ...desktopWrapperStyle, ...wrapperWidth } // desktop mode, button style
                     :
-                    { ...desktopClosedWrapperStyleChat}
+                    { ...desktopClosedWrapperStyleChat }
                 :
-                { ...desktopClosedWrapperStyleChat}; // desktop mode, chat style
+                { ...desktopClosedWrapperStyleChat }; // desktop mode, chat style
         } else {
             wrapperStyle = mobileOpenWrapperStyle; // open mobile wrapper should have no border
         }
 
-        
+
 
         return (
 
@@ -97,26 +97,26 @@ export default class Widget extends Component<any, IWidgetState> {
 
                     (isChatOpen || this.state.wasChatOpened) ?
                         (isChatOpen ?
-                            <div style={{background: conf.mainColor, ...desktopTitleStyle}} >
+                            <div style={{ background: conf.mainColor, ...desktopTitleStyle }} >
                                 <div style={{
                                     display: 'flex', alignItems: 'center', padding: '0px 30px 0px 0px',
                                     fontSize: '15px', fontWeight: 'normal', color: conf.headerTextColor
                                 }}>
                                     {conf.title}
-                                    {(changeLanguage === true) ? 
-                                    [
-                                     <div style={{paddingLeft:10}} onClick={() =>this.setLocale('it')}>ITA</div>,
-                                     <div style={{color:conf.headerTextColor,paddingLeft:2,paddingRight:2}}>|</div>,
-                                     <div style={{color:conf.headerTextColor}} onClick={() => this.setLocale('en')}>ENG</div>
-                                    ]
-                                    :''}
+                                    {(changeLanguage === true) ?
+                                        [
+                                            <div style={{ paddingLeft: 10 }} onClick={() => this.setLocale('it')}>ITA</div>,
+                                            <div style={{ color: conf.headerTextColor, paddingLeft: 2, paddingRight: 2 }}>|</div>,
+                                            <div style={{ color: conf.headerTextColor }} onClick={() => this.setLocale('en')}>ENG</div>
+                                        ]
+                                        : ''}
                                 </div>
                                 <div onClick={this.toggle}>
-                                    <ArrowIcon isOpened={isChatOpen}/>
+                                    <ArrowIcon isOpened={isChatOpen} />
                                 </div>
-                            </div> : <ChatTitleMsg onClick={this.toggle} conf={conf}  baloonSrc={baloonSrc}/>)
+                            </div> : <ChatTitleMsg onClick={this.toggle} conf={conf} baloonSrc={baloonSrc} />)
                         :
-                        <ChatTitleMsg onClick={this.toggle} conf={conf} baloonSrc={baloonSrc}/>
+                        <ChatTitleMsg onClick={this.toggle} conf={conf} baloonSrc={baloonSrc} />
                 }
 
                 {/*Chat IFrame*/}
@@ -132,25 +132,25 @@ export default class Widget extends Component<any, IWidgetState> {
     }
 
     toggle = () => {
-    	let stateData = {
+        let stateData = {
             pristine: false,
             isChatOpen: !this.state.isChatOpen,
             wasChatOpened: this.state.wasChatOpened
-    	};
-        console.log("isChatOpen="+this.state.isChatOpen);
-        console.log("wasChatOpened="+this.state.wasChatOpened);
-        console.log("sendWidgetOpenedEvent="+this.props.conf.sendWidgetOpenedEvent);
-    	if (!this.state.isChatOpen && !this.state.wasChatOpened) {
-    	    if (this.props.conf.sendWidgetOpenedEvent) {
-    	        setTimeout(() => {
-                    
-                console.log("chiamo sendOpenEvent");
-    	            this.sendOpenEvent();
+        };
+        console.log("isChatOpen=" + this.state.isChatOpen);
+        console.log("wasChatOpened=" + this.state.wasChatOpened);
+        console.log("sendWidgetOpenedEvent=" + this.props.conf.sendWidgetOpenedEvent);
+        if (!this.state.isChatOpen && !this.state.wasChatOpened) {
+            if (this.props.conf.sendWidgetOpenedEvent) {
+                setTimeout(() => {
+
+                    console.log("chiamo sendOpenEvent");
+                    this.sendOpenEvent();
                 }, 2000);
             }
-    		stateData.wasChatOpened = true;
-    	}
-    	this.setState(stateData);
+            stateData.wasChatOpened = true;
+        }
+        this.setState(stateData);
     };
 
     open() {
@@ -167,7 +167,7 @@ export default class Widget extends Component<any, IWidgetState> {
             isChatOpen: false
         });
     }
-    initBot(text: string){
+    initBot(text: string) {
         window.botmanChatWidget.initBot(text);
     }
     setLocale(text: string) {
@@ -181,22 +181,39 @@ export default class Widget extends Component<any, IWidgetState> {
     }
 
     private sendOpenEvent() {
-        let data = new FormData();
-        let intro = this.props.conf.introMessage || '';
-        data.append('driver', 'web');
-        data.append('eventName', 'widgetOpened');
-        data.append('eventData', this.props.conf.widgetOpenedEventData);
-        console.log("chiamo initBot con messaggio="+intro);
-        window.botmanChatWidget.initBot(intro);
-
-        axios.post(this.props.conf.chatServer, data).then(response => {
-            const messages = response.data.messages || [];
-
-            messages.forEach((message : IMessage) => {
-                window.botmanChatWidget.writeToMessages(message);
+        let data, url;
+        if (this.props.conf.channel == 'stream') {
+            let intro = this.props.conf.introMessage || '';
+            //window.botmanChatWidget.initBot(intro);
+            window.botmanChatWidget.writeToMessages({
+                text: intro || '',
+                type: "text",
+                from: "chatbot"
             });
-        });
+            return;
+        }
+        else {
+            url = this.props.conf.chatServer;
+            data = new FormData();
+            data.append('driver', 'web');
+            data.append('eventName', 'widgetOpened');
+            data.append('eventData', this.props.conf.widgetOpenedEventData);
+
+            let intro = this.props.conf.introMessage || '';
+            console.log("chiamo initBot con messaggio=" + intro);
+            window.botmanChatWidget.initBot(intro);
+            console.log("this.props.conf.channel", this.props.conf.channel)
+
+            axios.post(url, data).then(response => {
+                const messages = response.data.messages || [];
+
+                messages.forEach((message: IMessage) => {
+                    window.botmanChatWidget.writeToMessages(message);
+                });
+            });
+        }
     }
+
 }
 
 interface IWidgetState {
@@ -220,5 +237,5 @@ declare global {
 
 // FIXME: toGMTString is deprecated
 interface IDate extends Date {
-  toUTCString(): string;
+    toUTCString(): string;
 }

@@ -9,6 +9,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
     botman: any;
     input: HTMLInputElement;
     textarea: HTMLInputElement;
+    loading: boolean;
 
     constructor(props: IChatProps) {
         super(props);
@@ -115,12 +116,14 @@ export default class Chat extends Component<IChatProps, IChatState> {
         // Send a message from the html user to the server
         this.botman.callAPI(message.text, false, null, (msg: IMessage) => {
             msg.from = "chatbot";
+            msg.channel = this.props.conf.channel;
             this.writeToMessages(msg);
-        });
+        }, null,null,this.props.conf.channel);
 
         if (showMessage) {
             this.writeToMessages(message);
         }
+        this.loading = false;
     }
 
     whisper(text: string) {
@@ -136,6 +139,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
                         messages={state.messages}
                         conf={this.props.conf}
                         messageHandler={this.writeToMessages}
+                        loading={this.loading}
                     />
                 </div>
 
@@ -206,6 +210,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
             // Reset input value
             this.input.value = "";
+            this.loading = true;
         }
     };
 
@@ -260,19 +265,13 @@ export default class Chat extends Component<IChatProps, IChatState> {
 
         let foundMessage: IMessage | undefined = undefined;
 
-        for (let i = 0; i < this.state.messages.length; i++) {
-            if (this.state.messages[i].id === msg.id) {
-                foundMessage = this.state.messages[i];
-                break;
-            }
-        }
-        //const old_message = this.state.messages.find((m: IMessage) => msg.id = msg.id)
-        /* if(this.state.messages.some((m: IMessage)=>msg.id=msg.id))
-            m.text += msg.text */
-        console.log(this.state.messages)
+        foundMessage = this.state.messages.find((m: IMessage)=>msg.id == m.id)
+
+        console.log("foundMessage",foundMessage)
         if(foundMessage)
-            msg.text += foundMessage.text;
-        this.state.messages.push(msg);
+            foundMessage.text += msg.text
+        else
+            this.state.messages.push(msg);
         this.setState({
             messages: this.state.messages
         });
@@ -289,6 +288,7 @@ export default class Chat extends Component<IChatProps, IChatState> {
             window.localStorage.setItem("BOTMAN_MESSAGES", json);
         }
         catch (e) { };
+        this.loading = false;
     }
 }
 

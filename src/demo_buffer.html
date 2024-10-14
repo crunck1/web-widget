@@ -67,8 +67,7 @@
 var locale = navigator.language || navigator.browserLanguage || ( navigator.languages || [ "it" ] ) [0];    
 var botWidget = {
     frameEndpoint: 'chat.html',
-    chatServer: 'http://localhost:800/stream',
-    bufferChannel: 'http://localhost:800/invoke',
+    chatServer:  'http://test.botsolver.com/botservice/web/88?locale='+locale.substring(0, 2),
     title: 'web chat',
     //introMessage: 'ciao, sono un assistente virtuale, come posso aiutarti?',
     bubbleAvatarUrl:'https://www.botsolver.com/images/logo_ticketbotsupport.png',
@@ -77,13 +76,9 @@ var botWidget = {
     visitorMessageBackgroundColor: 'green',
     chatbotMessageBackgroundColor: 'blue',
     mainColor: 'red',
-    introMessage:`Ciao! Sono un assistente virtuale dedicato al Teatro alla Scala di Milano. 
-    Posso aiutarti a cercare informazioni sugli spettacoli, le date delle rappresentazioni,
-     e l'acquisto di biglietti, sia sul sito del teatro che su Vivaticket. 
-     Se hai domande specifiche, sentiti libero di chiedere!`,
+   introMessage:'GET_STARTED_PAYLOAD',
     sendWidgetOpenedEvent:true,
-    expiresAfter:30,
-    channel:'stream'
+    expiresAfter:30
 };
 </script>
 <script id="botmanWidget" src='js/widget.js'></script>

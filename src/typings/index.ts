@@ -39,6 +39,7 @@ export interface IMessage {
     globalButtons?: IButton[],
     additionalParameters?: any,
     elements?: IElement[],
+    channel?: string
 }
 
 export interface IAttachment {
@@ -146,4 +147,5 @@ export interface IConfiguration {
 
     changeLanguage: boolean,
     expiresAfter: number,
+    channel?: string
 }

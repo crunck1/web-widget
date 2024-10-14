@@ -7,10 +7,10 @@
 		"module": "es6",
 		"jsx": "react",
 		"jsxFactory": "h",
-		"target": "es5",
+		"target": "es6",
 		"allowJs": true,
 		"moduleResolution": "node",
-		"lib": ["dom", "es5", "scripthost", "es2015.promise"]
+		"lib": ["dom", "es6", "scripthost", "es2015.promise"]
 	},
 	"include": [
 		"./src/**/*"
