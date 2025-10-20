@@ -34,6 +34,8 @@ export default class Chat extends Component<IChatProps, IChatState> {
           this.whisper('CHANGE_TO_ENG_LOCALE');
         else if(text==='fr')
           this.whisper('CHANGE_TO_FR_LOCALE');
+        else if(text==='es')
+          this.whisper('CHANGE_TO_ES_LOCALE');
 
     }
 
