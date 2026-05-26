@@ -171,7 +171,6 @@ export default class Chat extends Component<IChatProps, IChatState> {
                         }}
                         onFocus={this.handleOnFocus}
                         onKeyPress={this.handleKeyPress}
-                        autofocus
                     />
                 ) : ''}
 
@@ -197,7 +196,6 @@ export default class Chat extends Component<IChatProps, IChatState> {
                             ref={input => {
                                 this.textarea = input as HTMLInputElement;
                             }}
-                            autofocus
                         />
                     </div>
                 ) : ''}
